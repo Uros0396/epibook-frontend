@@ -17,7 +17,7 @@ export const BookContextProvider = ({ children }) => {
       const result = await response.json();
 
       if (response.ok) {
-        setBooks(result);
+        setBooks(result.books);
       } else {
         console.error(result.message);
       }

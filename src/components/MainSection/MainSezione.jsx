@@ -11,24 +11,14 @@ import { BookContext } from "../../contexts/BookContext";
 const MainSezione = () => {
   const [selectedBook, setSelectedBook] = useState(null);
   const { isDarkMode } = useContext(DarkContext);
-  const {
-    allBooks: books,
-    page,
-    setPage,
-    pageSize,
-    inputValue,
-  } = useContext(BookContext);
+  const { allBooks: books, page, setPage, pageSize } = useContext(BookContext);
 
   const randomBook = useMemo(() => {
-    if (Array.isArray(books.books) && books.books.length > 0) {
-      return books.books.sort(() => Math.random() - 0.5);
+    if (Array.isArray(books) && books.length > 0) {
+      return books.sort(() => Math.random() - 0.5);
     }
     return [];
   }, [books]);
-
-  // const paginatedBooks = Array.isArray(books.books)
-  //   ? books.books.slice((page - 1) * pageSize, page * pageSize)
-  //   : [];
 
   return (
     <div className={`${isDarkMode ? "bg-dark" : "bg-light"}`}>
@@ -75,7 +65,7 @@ const MainSezione = () => {
             <InputBooks />
             {books.length > 0 ? (
               <ul className="list-unstyled d-flex flex-column gy-3">
-                {paginatedBooks.map((book) => (
+                {books.map((book) => (
                   <li key={book?.asin}>
                     <img
                       src={book?.img}
@@ -96,7 +86,7 @@ const MainSezione = () => {
         <Row className="gy-4 mt-5">
           <Col lg={6}>
             <Row className="gy-4">
-              {paginatedBooks.map((book) => (
+              {books.map((book) => (
                 <Col xs={6} md={4} lg={6} key={book?.asin}>
                   <CustomCard
                     book={book}
@@ -134,7 +124,7 @@ const MainSezione = () => {
                 <span>Page {page}</span>
                 <button
                   onClick={() => setPage((prev) => prev + 1)}
-                  disabled={paginatedBooks.length < pageSize}
+                  disabled={books.length < pageSize}
                 >
                   Next
                 </button>
