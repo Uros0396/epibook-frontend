@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import SingleBook from "../SingleBook/SingleBook";
 import CustomCard from "../CustomCard/CustomCard";
@@ -7,11 +7,13 @@ import CommentArea from "../CommentArea/CommentArea";
 import InputBooks from "../InputBooks/InputBooks";
 import "../MainSection/MainSezione.css";
 import { BookContext } from "../../contexts/BookContext";
+import { SearchContext } from "../SearchContext/SearchContext";
 
 const MainSezione = () => {
   const [selectedBook, setSelectedBook] = useState(null);
   const { isDarkMode } = useContext(DarkContext);
   const { allBooks: books, page, setPage, pageSize } = useContext(BookContext);
+  const { searchTerm, setSearchTerm } = useContext(SearchContext);
 
   const randomBook = useMemo(() => {
     if (Array.isArray(books) && books.length > 0) {
@@ -63,9 +65,15 @@ const MainSezione = () => {
               Fantasy Library
             </h3>
             <InputBooks />
-            {books.length > 0 ? (
-              <ul className="list-unstyled d-flex flex-column gy-3">
-                {books.map((book) => (
+            {searchTerm &&
+              books
+                .filter((book) => {
+                  return (
+                    book.category === "fantasy" &&
+                    book.title.toLowerCase().includes(searchTerm.toLowerCase())
+                  );
+                })
+                .map((book) => (
                   <li key={book?.asin}>
                     <img
                       src={book?.img}
@@ -77,24 +85,22 @@ const MainSezione = () => {
                     </div>
                   </li>
                 ))}
-              </ul>
-            ) : (
-              <p>Books not found</p>
-            )}
           </Col>
         </Row>
         <Row className="gy-4 mt-5">
           <Col lg={6}>
             <Row className="gy-4">
-              {books.map((book) => (
-                <Col xs={6} md={4} lg={6} key={book?.asin}>
-                  <CustomCard
-                    book={book}
-                    selectedBook={selectedBook}
-                    setSelectedBook={setSelectedBook}
-                  />
-                </Col>
-              ))}
+              {books
+                .filter((book) => book.category === "fantasy")
+                .map((book) => (
+                  <Col xs={6} md={4} lg={6} key={book?.asin}>
+                    <CustomCard
+                      book={book}
+                      selectedBook={selectedBook}
+                      setSelectedBook={setSelectedBook}
+                    />
+                  </Col>
+                ))}
             </Row>
           </Col>
           <Col
