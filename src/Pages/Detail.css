@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+  }
+
+.fixed-image {
+    max-width: 100%; 
+    height: auto; 
+    object-fit: cover; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    width: 100%; 
+    max-width: 200px; 
+  }
+  
+  .comments-container {
+    border: 1px solid black; 
+    width: 700px;
+    border-radius: 5px; 
+    height: 400px;
+    overflow-y: auto; 
+    margin-top: 20px; 
+    background-color: rgb(243, 241, 241); 
+    overflow-x: hidden;
+  }
+  
+  .comments-list {
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0;
+  }
+  
+  .comment-item {
+    margin-bottom: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px;
+ 
+  }
