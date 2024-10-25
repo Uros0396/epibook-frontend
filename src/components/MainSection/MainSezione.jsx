@@ -12,7 +12,13 @@ import { SearchContext } from "../SearchContext/SearchContext";
 const MainSezione = () => {
   const [selectedBook, setSelectedBook] = useState(null);
   const { isDarkMode } = useContext(DarkContext);
-  const { allBooks: books, page, setPage, pageSize } = useContext(BookContext);
+  const {
+    allBooks: books,
+    page,
+    setPage,
+    pageSize,
+    inputValue,
+  } = useContext(BookContext);
   const { searchTerm, setSearchTerm } = useContext(SearchContext);
 
   const randomBook = useMemo(() => {
@@ -87,34 +93,50 @@ const MainSezione = () => {
                 ))}
           </Col>
         </Row>
-        <Row className="gy-4 mt-5">
-          <Col lg={6}>
-            <Row className="gy-4">
+        <Row className="d-flex flex-column gy-4 mt-5">
+          {inputValue && (
+            <div>
+              <h2>All books</h2>
               {books
-                .filter((book) => book.category === "fantasy")
+                .filter((book) => {
+                  return book.title
+                    .toLowerCase()
+                    .includes(inputValue.toLowerCase());
+                })
                 .map((book) => (
-                  <Col xs={6} md={4} lg={6} key={book?.asin}>
-                    <CustomCard
-                      book={book}
-                      selectedBook={selectedBook}
-                      setSelectedBook={setSelectedBook}
-                    />
-                  </Col>
+                  <Col>{book.title}</Col>
                 ))}
-            </Row>
-          </Col>
-          <Col
-            lg={6}
-            className="right-column d-flex justify-content-center align-items-center"
-          >
-            {selectedBook ? (
-              <CommentArea className="side-fixed" book={selectedBook} />
-            ) : (
-              <h4 className={`${isDarkMode ? "text-white" : "text-dark"}`}>
-                Select a book to see comments and details.
-              </h4>
-            )}
-          </Col>
+            </div>
+          )}
+          <div className="d-flex justify-content-between align-items-center">
+            <Col lg={6}>
+              <Row className="gy-4">
+                {books
+                  .filter((book) => book.category === "fantasy")
+                  .map((book) => (
+                    <Col xs={6} md={4} lg={6} key={book?.asin}>
+                      <CustomCard
+                        book={book}
+                        selectedBook={selectedBook}
+                        setSelectedBook={setSelectedBook}
+                      />
+                    </Col>
+                  ))}
+              </Row>
+            </Col>
+            <Col
+              lg={6}
+              className="right-column d-flex justify-content-center align-items-center"
+            >
+              {selectedBook ? (
+                <CommentArea className="side-fixed" book={selectedBook} />
+              ) : (
+                <h4 className={`${isDarkMode ? "text-white" : "text-dark"}`}>
+                  Select a book to see comments and details.
+                </h4>
+              )}
+            </Col>
+          </div>
         </Row>
 
         <Row>
