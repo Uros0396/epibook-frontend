@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, useCallback } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const BookContext = createContext();
 
@@ -61,7 +61,7 @@ export const BookContextProvider = ({ children }) => {
     if (!inputValue.trim()) {
       getAllBooks(page, pageSize);
     }
-  }, [page, pageSize]); // Rimuovi inputValue dalle dipendenze per evitare chiamate multiple
+  }, [page, pageSize]);
 
   return (
     <BookContext.Provider

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
@@ -26,25 +26,21 @@ const LoginPage = ({ onLogin }) => {
       );
 
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
-        onLogin();
+        localStorage.setItem("Authorized", JSON.stringify(data));
         navigate("/Home");
       } else {
         alert(data.message || "Login fallito");
       }
     } catch (error) {
       console.error(error);
-      alert("Si è verificato un errore durante la connessione al server.");
+      alert("Server error connecting");
     }
   };
 
   return (
     <div className="login-container">
-      <form
-        onSubmit={onSubmit}
-        className="d-flex flex-column justify-content-center align-content-center"
-      >
+      <form onSubmit={onSubmit}>
         <input
           onChange={handleInput}
           name="email"

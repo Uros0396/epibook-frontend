@@ -1,19 +1,19 @@
 html, body {
-    height: 100%; /* Assicura che l'altezza della pagina copra tutto lo schermo */
+    height: 100%;
     margin: 0;
   }
   
   .login-container {
     display: flex;
-    justify-content: center;  /* Centra orizzontalmente */
-    align-items: center;      /* Centra verticalmente */
-    height: 100vh;            /* Altezza dell'intera viewport */
+    justify-content: center; 
+    align-items: center;      
+    height: 100vh;            
   }
   
   form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;                /* Spaziatura tra gli elementi */
+    gap: 1rem;               
   }
   
   input {

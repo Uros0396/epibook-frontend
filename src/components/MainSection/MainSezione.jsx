@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import SingleBook from "../SingleBook/SingleBook";
 import CustomCard from "../CustomCard/CustomCard";
@@ -19,7 +19,7 @@ const MainSezione = () => {
     pageSize,
     inputValue,
   } = useContext(BookContext);
-  const { searchTerm, setSearchTerm } = useContext(SearchContext);
+  const { searchTerm } = useContext(SearchContext);
 
   const randomBook = useMemo(() => {
     if (Array.isArray(books) && books.length > 0) {
@@ -114,7 +114,7 @@ const MainSezione = () => {
                 {books
                   .filter((book) => book.category === "fantasy")
                   .map((book) => (
-                    <Col xs={6} md={4} lg={6} key={book?.asin}>
+                    <Col className="gy-4" xs={6} md={4} lg={6} key={book?.asin}>
                       <CustomCard
                         book={book}
                         selectedBook={selectedBook}
