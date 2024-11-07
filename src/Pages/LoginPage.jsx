@@ -38,6 +38,12 @@ const LoginPage = () => {
     }
   };
 
+  const redirectToGoogle = () => {
+    window.location.href = `${
+      import.meta.env.VITE_SERVER_BASE_URL
+    }/auth/google`;
+  };
+
   return (
     <div className="login-container">
       <form onSubmit={onSubmit}>
@@ -57,6 +63,7 @@ const LoginPage = () => {
         />
         <button type="submit">Login</button>
       </form>
+      <button onClick={redirectToGoogle}>Sign with google</button>
     </div>
   );
 };

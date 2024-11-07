@@ -6,7 +6,7 @@ import DeleteReview from "../DeleteReview/DeleteReview";
 import ReviewsContext from "../ReviewsContext/ReviewsContext";
 import { PostReviewsContext } from "../PostReviewsContext/PostReviewsContext";
 
-const CommentArea = ({ book }) => {
+const CommentArea = ({ bookId }) => {
   const { setReviewToReload } = useContext(PostReviewsContext);
   const { reviewToReload } = useContext(ReviewsContext);
   const [reviews, setReviews] = useState([]);
@@ -16,20 +16,15 @@ const CommentArea = ({ book }) => {
   const [showError, setShowError] = useState(false);
   const [commentToModify, setCommentToModify] = useState(null);
   const [commentIdToModify, setCommentIdToModify] = useState(null);
-  const asin = book?.asin;
+  const asin = bookId;
 
   const getData = async () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://striveschool-api.herokuapp.com/api/comments/${asin}`,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzAxNTFmNjBmMzg1MDAwMTUxYzE3OWMiLCJpYXQiOjE3MjgxMzk3NjYsImV4cCI6MTcyOTM0OTM2Nn0.dJG3wysAo1YXU2MXgdRsxVCki2TouKvypDxix9-28d0",
-          },
-        }
+        `${import.meta.env.VITE_SERVER_BASE_URL}/book//${bookId}/comment`
       );
+
       const data = await response.json();
       setReviews(data);
     } catch (error) {
@@ -51,24 +46,24 @@ const CommentArea = ({ book }) => {
       comment: comment,
       rate: rate,
     };
+    console.log(commentData);
 
     try {
       const response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/comments/",
+        `http://localhost:4500/books/${bookId}/create/comment`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzAxNTFmNjBmMzg1MDAwMTUxYzE3OWMiLCJpYXQiOjE3MjgxMzk3NjYsImV4cCI6MTcyOTM0OTM2Nn0.dJG3wysAo1YXU2MXgdRsxVCki2TouKvypDxix9-28d0",
           },
           body: JSON.stringify(commentData),
         }
       );
 
-      console.log("Response:", response);
+      console.log(response);
+
       if (!response.ok) {
-        throw new Error("Errore durante l'invio");
+        throw new Error("cannot send");
       }
       const newReview = await response.json();
       setReviews((prevReviews) => [...prevReviews, newReview]);
@@ -76,7 +71,7 @@ const CommentArea = ({ book }) => {
       setComment("");
       setRate(1);
     } catch (error) {
-      console.error("Errore:", error.message);
+      console.error("Error:", error.message);
     }
   };
 
@@ -94,13 +89,11 @@ const CommentArea = ({ book }) => {
 
     try {
       const response = await fetch(
-        `https://striveschool-api.herokuapp.com/api/comments/${id}`,
+        `http://localhost:4500/books/${bookId}/comments/${commentId}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzAxNTFmNjBmMzg1MDAwMTUxYzE3OWMiLCJpYXQiOjE3MjgxMzk3NjYsImV4cCI6MTcyOTM0OTM2Nn0.dJG3wysAo1YXU2MXgdRsxVCki2TouKvypDxix9-28d0",
           },
           body: JSON.stringify(commentData),
         }
@@ -121,7 +114,7 @@ const CommentArea = ({ book }) => {
       setCommentToModify(null);
       setCommentIdToModify(null);
     } catch (error) {
-      console.error("Errore:", error.message);
+      console.error("Error:", error.message);
     }
   };
 
@@ -129,7 +122,7 @@ const CommentArea = ({ book }) => {
     if (asin) {
       getData();
     }
-  }, [asin, reviewToReload]);
+  }, [bookId]);
 
   if (loading)
     return (
@@ -249,7 +242,7 @@ const CommentArea = ({ book }) => {
                       >
                         Modify
                       </Button>
-                      <DeleteReview id={review._id} />
+                      <DeleteReview />
                     </div>
                   </>
                 )}
@@ -312,7 +305,7 @@ const CommentArea = ({ bookId }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/books/${bookId}/comments`
+        `${import.meta.env.VITE_SERVER_BASE_URL}/book/${bookId}`
       );
 
       const data = await response.json();
@@ -336,10 +329,13 @@ const CommentArea = ({ bookId }) => {
       comment: comment,
       rate: rate,
     };
+    console.log(commentData);
 
     try {
       const response = await fetch(
-        `http://localhost:4500/books/${bookId}/comments`,
+        `${
+          import.meta.env.VITE_SERVER_BASE_URL
+        }/books/${bookId}/create/comment`,
         {
           method: "POST",
           headers: {
@@ -348,6 +344,8 @@ const CommentArea = ({ bookId }) => {
           body: JSON.stringify(commentData),
         }
       );
+
+      console.log(response);
 
       if (!response.ok) {
         throw new Error("cannot send");

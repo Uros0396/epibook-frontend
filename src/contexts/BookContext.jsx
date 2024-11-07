@@ -15,6 +15,7 @@ export const BookContextProvider = ({ children }) => {
       }/Books?page=${page}&pageSize=${pageSize}`;
       const response = await fetch(url);
       const result = await response.json();
+      console.log(result);
 
       if (response.ok) {
         setBooks(result.books);
