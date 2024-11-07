@@ -10,4 +10,10 @@
 .title-inputs-results {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
+.container-book {
+    width: 500px;
+    height: 600px;
+    border: 2px solid black;
+}
   

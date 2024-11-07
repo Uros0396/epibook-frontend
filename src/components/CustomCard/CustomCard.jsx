@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import {
   Card,
   CardBody,
@@ -15,7 +16,7 @@ const CustomCard = ({ book, selectedBook, setSelectedBook }) => {
   const navigate = useNavigate();
 
   const handleRedirecttoDetail = () => {
-    navigate(`/Detail/${book?.asin}`);
+    navigate(`/Detail/${book?._id}`);
   };
 
   const [isClicked, setIsClicked] = useState(false);
@@ -25,8 +26,8 @@ const CustomCard = ({ book, selectedBook, setSelectedBook }) => {
   };
 
   useEffect(() => {
-    setIsClicked(selectedBook?.asin === book?.asin);
-  }, [selectedBook, book?.asin]);
+    setIsClicked(selectedBook?._id === book?._id);
+  }, [selectedBook, book?._id]);
 
   return (
     <Card

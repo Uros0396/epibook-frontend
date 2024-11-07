@@ -1,13 +1,13 @@
-import { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import SingleBook from "../SingleBook/SingleBook";
 import CustomCard from "../CustomCard/CustomCard";
-import { DarkContext } from "../../contexts/DarkContext";
 import CommentArea from "../CommentArea/CommentArea";
 import InputBooks from "../InputBooks/InputBooks";
 import "../MainSection/MainSezione.css";
+import { DarkContext } from "../../contexts/DarkContext";
 import { BookContext } from "../../contexts/BookContext";
-import { SearchContext } from "../SearchContext/SearchContext";
+import { SearchContext, useSearch } from "../SearchContext/SearchContext";
 
 const MainSezione = () => {
   const [selectedBook, setSelectedBook] = useState(null);
@@ -18,15 +18,34 @@ const MainSezione = () => {
     setPage,
     pageSize,
     inputValue,
+    handleInputChange,
   } = useContext(BookContext);
-  const { searchTerm } = useContext(SearchContext);
+  const { searchFantasyFilter, searchNavbarFilter } = useSearch();
+  const [navbarFilteredBook, setNavbarFilteredBook] = useState(null);
 
+  useEffect(() => {
+    const navbarFilteredBooks = filteredBooks.filter(
+      (book) =>
+        !searchNavbarFilter ||
+        book.title.toLowerCase().includes(searchNavbarFilter.toLowerCase())
+    );
+    setNavbarFilteredBook(navbarFilteredBooks ? navbarFilteredBooks[0] : null);
+  }, [searchNavbarFilter]);
+
+  // Randomizing the books array to display a "Book of the Day"
   const randomBook = useMemo(() => {
     if (Array.isArray(books) && books.length > 0) {
       return books.sort(() => Math.random() - 0.5);
     }
     return [];
   }, [books]);
+
+  // Filtering the books based on the search term and category "fantasy"
+  const filteredBooks = books.filter(
+    (book) =>
+      book.category === "fantasy" &&
+      book.title.toLowerCase().includes(searchFantasyFilter.toLowerCase())
+  );
 
   return (
     <div className={`${isDarkMode ? "bg-dark" : "bg-light"}`}>
@@ -38,23 +57,21 @@ const MainSezione = () => {
                 isDarkMode ? "text-white" : "text-dark"
               }`}
             >
-              Book of day
+              Book of the Day
             </h2>
-            {randomBook.slice(0, 1).map((book) => {
-              const price = book?.price?.$numberDecimal
-                ? parseFloat(book.price.$numberDecimal)
-                : book?.price || "Prezzo non disponibile";
-
-              return (
-                <SingleBook
-                  key={book?.asin}
-                  title={book?.title}
-                  price={price}
-                  img={book?.img}
-                  category={book?.category}
-                />
-              );
-            })}
+            {randomBook.slice(0, 1).map((book) => (
+              <SingleBook
+                key={book?.asin}
+                title={book?.title}
+                price={
+                  book?.price && book.price.$numberDecimal
+                    ? parseFloat(book.price.$numberDecimal).toFixed(2)
+                    : "No price"
+                }
+                img={book?.img}
+                category={book?.category}
+              />
+            ))}
           </Col>
 
           <Col
@@ -71,57 +88,55 @@ const MainSezione = () => {
               Fantasy Library
             </h3>
             <InputBooks />
-            {searchTerm &&
-              books
-                .filter((book) => {
-                  return (
-                    book.category === "fantasy" &&
-                    book.title.toLowerCase().includes(searchTerm.toLowerCase())
-                  );
-                })
-                .map((book) => (
-                  <li key={book?.asin}>
-                    <img
-                      src={book?.img}
-                      alt={book?.title}
-                      style={{ width: "50px", marginRight: "10px" }}
-                    />
-                    <div className={`${isDarkMode ? "text-dark" : ""}`}>
-                      {book?.title}
-                    </div>
-                  </li>
-                ))}
+            {filteredBooks.map((book) => (
+              <li key={book?.asin}>
+                <img
+                  src={book?.img}
+                  alt={book?.title}
+                  style={{ width: "50px", marginRight: "10px" }}
+                />
+                <div className={`${isDarkMode ? "text-dark" : ""}`}>
+                  {book?.title}
+                </div>
+              </li>
+            ))}
           </Col>
         </Row>
+
         <Row className="d-flex flex-column gy-4 mt-5">
-          {inputValue && (
+          {navbarFilteredBook && (
             <div>
-              <h2>All books</h2>
-              {books
-                .filter((book) => {
-                  return book.title
-                    .toLowerCase()
-                    .includes(inputValue.toLowerCase());
-                })
-                .map((book) => (
-                  <Col>{book.title}</Col>
-                ))}
+              <h2>Your Book</h2>
+              {
+                <div key={navbarFilteredBook?._id}>
+                  <img
+                    src={navbarFilteredBook?.img}
+                    alt={navbarFilteredBook?.title}
+                    style={{ width: "50px", marginRight: "10px" }}
+                  />
+                  <div className={`${isDarkMode ? "text-dark" : ""}`}>
+                    {navbarFilteredBook?.title}
+                  </div>
+                </div>
+              }
             </div>
           )}
+
           <div className="d-flex justify-content-between align-items-center">
             <Col lg={6}>
+              <h2>
+                <strong>Library</strong>
+              </h2>
               <Row className="gy-4">
-                {books
-                  .filter((book) => book.category === "fantasy")
-                  .map((book) => (
-                    <Col className="gy-4" xs={6} md={4} lg={6} key={book?.asin}>
-                      <CustomCard
-                        book={book}
-                        selectedBook={selectedBook}
-                        setSelectedBook={setSelectedBook}
-                      />
-                    </Col>
-                  ))}
+                {filteredBooks.map((book) => (
+                  <Col xs={6} md={4} lg={6} key={book?.asin}>
+                    <CustomCard
+                      book={book}
+                      selectedBook={selectedBook}
+                      setSelectedBook={setSelectedBook}
+                    />
+                  </Col>
+                ))}
               </Row>
             </Col>
             <Col
@@ -129,7 +144,7 @@ const MainSezione = () => {
               className="right-column d-flex justify-content-center align-items-center"
             >
               {selectedBook ? (
-                <CommentArea className="side-fixed" book={selectedBook} />
+                <CommentArea bookId={selectedBook ? selectedBook.asin : null} />
               ) : (
                 <h4 className={`${isDarkMode ? "text-white" : "text-dark"}`}>
                   Select a book to see comments and details.

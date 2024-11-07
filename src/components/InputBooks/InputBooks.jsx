@@ -1,12 +1,12 @@
 import { useContext } from "react";
 
-import { SearchContext } from "../SearchContext/SearchContext";
+import { SearchContext, useSearch } from "../SearchContext/SearchContext";
 
 const InputBooks = () => {
-  const { searchTerm, setSearchTerm } = useContext(SearchContext);
+  const { searchFantasyFilter, setSearchFantasyFilter } = useSearch();
 
   const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
+    setSearchFantasyFilter(event.target.value);
   };
 
   return (
@@ -14,7 +14,7 @@ const InputBooks = () => {
       <input
         type="text"
         placeholder="Fantasy Libriary"
-        value={searchTerm}
+        value={searchFantasyFilter}
         onChange={handleInputChange}
       />
     </div>
