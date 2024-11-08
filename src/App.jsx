@@ -8,8 +8,16 @@ import NotFound from "./Pages/NotFound";
 import Detail from "./Pages/Detail";
 import { PrivateRoute } from "../middleware/PrivateRoute";
 import Success from "./Pages/Success";
+import { useEffect } from "react";
 
 const App = () => {
+  useEffect(() => {
+    const token = document.cookie.split("=")[1];
+    if (token) {
+      localStorage.setItem("token", token);
+    }
+    document.cookie = `token=;`;
+  }, []);
   return (
     <BrowserRouter>
       <Routes>

@@ -3,18 +3,17 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 const Detail = () => {
-  const { bookId } = useParams(); // Prende l'ID del libro dai parametri URL
-
-  const [book, setBook] = useState(null); // Stato per il singolo libro
-  const [comments, setComments] = useState([]); // Stato per i commenti
-  const [loading, setLoading] = useState(true); // Stato di caricamento
-  const [error, setError] = useState(null); // Stato per eventuali errori
+  const { bookId } = useParams();
+  const [book, setBook] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const getBookDetails = async () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/book/${bookId}` // Includere l'ID del libro
+        `${import.meta.env.VITE_SERVER_BASE_URL}/book/${bookId}`
       );
       console.log(bookId);
 
@@ -25,9 +24,9 @@ const Detail = () => {
       const bookData = await response.json();
       console.log(bookData);
 
-      setBook(bookData); // Assicurati che bookData sia un oggetto libro
+      setBook(bookData);
 
-      setComments(bookData.comments || []); // Assicurati che i commenti siano impostati correttamente
+      setComments(bookData.comments || []);
     } catch (err) {
       setError(err.message);
     } finally {
