@@ -44,13 +44,6 @@ const LoginPage = () => {
     }/auth/google`;
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/Home");
-    }
-  }, []);
-
   return (
     <div className="login-container">
       <form onSubmit={onSubmit}>

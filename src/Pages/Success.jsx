@@ -1,19 +1,17 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const Success = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { token } = useParams();
 
   useEffect(() => {
-    const searchParam = new URLSearchParams(location.search);
-    const token = searchParam.get("token");
-
     if (token) {
       localStorage.setItem("auth", JSON.stringify(token));
-      setTimeout(() => {
-        navigate("/Home");
-      }, 2000);
+      navigate("/Home");
+    } else {
+      navigate("/");
     }
   }, [location, navigate]);
 

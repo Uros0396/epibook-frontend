@@ -2,13 +2,13 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 
 import { useContext } from "react";
 import { DarkContext } from "../../contexts/DarkContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../MyNav/MyNav.css";
 import InputNav from "../InputNav/InputNav";
 
 const MyNav = () => {
   const { isDarkMode, toggleDarkMode } = useContext(DarkContext);
-
+  const navigate = useNavigate();
   return (
     <nav>
       <Container
@@ -35,6 +35,14 @@ const MyNav = () => {
                 <Link to="/Browse" className="text-decoration-none">
                   <li>Browse</li>
                 </Link>
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("auth");
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </button>
               </ul>
             </div>
 
