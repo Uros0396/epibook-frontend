@@ -9,18 +9,4 @@ import { PostReviewsProvider } from "./components/PostReviewsContext/PostReviews
 import { SearchContextProvider } from "./components/SearchContext/SearchContext.jsx";
 import { BookContextProvider } from "./contexts/BookContext.jsx";
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <ReviewsProvider>
-      <DarkContextProvider>
-        <PostReviewsProvider>
-          <BookContextProvider>
-            <SearchContextProvider>
-              <App />
-            </SearchContextProvider>
-          </BookContextProvider>
-        </PostReviewsProvider>
-      </DarkContextProvider>
-    </ReviewsProvider>
-  </StrictMode>
-);
+createRoot(document.getElementById("root")).render(<p>test</p>);
