@@ -9,7 +9,7 @@ const Success = () => {
   useEffect(() => {
     if (token) {
       localStorage.setItem("auth", JSON.stringify(token));
-      navigate("/Home");
+      navigate("/home");
     } else {
       navigate("/");
     }

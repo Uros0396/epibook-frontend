@@ -6,12 +6,8 @@ const LoginPage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
   const onSubmit = async (e) => {
+    console.log(formData);
     e.preventDefault();
     try {
       const response = await fetch(
@@ -27,14 +23,14 @@ const LoginPage = () => {
 
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem("Authorized", JSON.stringify(data));
-        navigate("/Home");
+        localStorage.setItem("token", JSON.stringify(data.token));
+        navigate("/");
       } else {
-        alert(data.message || "Login fallito");
+        alert(data.message || "Login failed. Try again.");
       }
     } catch (error) {
       console.error(error);
-      alert("Server error connecting");
+      alert("Login failed. Try again.");
     }
   };
 
@@ -48,16 +44,20 @@ const LoginPage = () => {
     <div className="login-container">
       <form onSubmit={onSubmit}>
         <input
-          onChange={handleInput}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           name="email"
           type="email"
+          value={formData.email}
           placeholder="Email"
           autoComplete="email"
         />
         <input
-          onChange={handleInput}
+          onChange={(e) =>
+            setFormData({ ...formData, password: e.target.value })
+          }
           name="password"
           type="password"
+          value={formData.password}
           placeholder="Password"
           autoComplete="current-password"
         />

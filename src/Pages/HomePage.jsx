@@ -6,14 +6,6 @@ import Footer from "../components/Footer/Footer";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    const token = localStorage.getItem("auth");
-    if (!token) {
-      navigate("/");
-    }
-  }, []);
-
   return (
     <>
       <MyNav />
