@@ -6,7 +6,8 @@ const Welcome = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const getName = () => {
-    const payload = getTokenPayload();
+    const token = localStorage.getItem("token");
+    const payload = getTokenPayload(token);
     return payload?.name + " " + payload?.surname;
   };
 
