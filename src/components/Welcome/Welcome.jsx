@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import MyModal from "../MyModal/Mymodal";
+import getTokenPayload from "../../services/getTokenPayload";
 
 const Welcome = () => {
-  const [name, setName] = useState("Epicoder");
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const getName = () => {
+    const payload = getTokenPayload();
+    return payload?.name + " " + payload?.surname;
+  };
 
   useEffect(() => {
     setIsModalVisible(true);
@@ -14,7 +19,7 @@ const Welcome = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  return isModalVisible && <MyModal show={isModalVisible} name={name} />;
+  return isModalVisible && <MyModal show={isModalVisible} name={getName()} />;
 };
 
 export default Welcome;
