@@ -62,8 +62,8 @@ const LoginPage = () => {
           autoComplete="current-password"
         />
         <button type="submit">Login</button>
+        <button onClick={redirectToGoogle}>Sign with google</button>
       </form>
-      <button onClick={redirectToGoogle}>Sign with google</button>
     </div>
   );
 };
