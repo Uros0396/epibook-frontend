@@ -9,6 +9,12 @@ import InputNav from "../InputNav/InputNav";
 const MyNav = () => {
   const { isDarkMode, toggleDarkMode } = useContext(DarkContext);
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <nav>
       <Container
@@ -26,23 +32,12 @@ const MyNav = () => {
               </h1>
 
               <ul className="d-flex justify-content-center align-items-center gap-4 text-light list-unstyled m-0">
-                <Link to="/Home" className="text-decoration-none">
-                  <li>Home</li>
-                </Link>
                 <Link to="/About" className="text-decoration-none">
                   <li>About</li>
                 </Link>
                 <Link to="/Browse" className="text-decoration-none">
                   <li>Browse</li>
                 </Link>
-                <button
-                  onClick={() => {
-                    localStorage.removeItem("auth");
-                    navigate("/");
-                  }}
-                >
-                  Logout
-                </button>
               </ul>
             </div>
 
@@ -58,6 +53,7 @@ const MyNav = () => {
               >
                 <em>Change Mode</em>
               </Button>
+              <button onClick={handleLogout}>Logout</button>
             </div>
           </Col>
         </Row>
