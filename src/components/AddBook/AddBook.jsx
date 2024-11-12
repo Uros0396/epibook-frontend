@@ -25,13 +25,14 @@ const AddBook = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/books/upload`,
+        `${import.meta.env.VITE_SERVER_BASE_URL}/books/upload/cloud`,
         {
           method: "POST",
           body: fileData,
         }
       );
-      return await response.json();
+      const dataImg = await response.json();
+      return dataImg.img;
     } catch (error) {
       console.log(error.message);
     }
@@ -45,7 +46,7 @@ const AddBook = () => {
         const uploadedFile = await uploadFile(file);
         const postFormData = {
           ...formData,
-          img: uploadedFile.img,
+          img: uploadedFile,
         };
         const response = await fetch(
           `${import.meta.env.VITE_SERVER_BASE_URL}/books/create`,
@@ -58,10 +59,9 @@ const AddBook = () => {
           }
         );
 
-        if (response.ok) {
-          setBooks((prevBooks) => [...prevBooks, postFormData]);
-          setNewBook(postFormData);
-        }
+        const createdBook = await response.json();
+
+        setBooks(createdBook.book);
       } catch (error) {
         console.log(error.message);
       }
@@ -113,9 +113,8 @@ const AddBook = () => {
       </form>
 
       <div className="book-list">
-        {books.map((book) => (
-          <AddBookCard key={book.asin} newBook={book} />
-        ))}
+        {books &&
+          books.map((book) => <AddBookCard key={book.asin} newBook={book} />)}
       </div>
     </>
   );
