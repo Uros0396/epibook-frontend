@@ -30,7 +30,7 @@ const AddBookCard = ({ newBook }) => {
   return (
     <div className="card mt-4">
       <img
-        src={newBook.img || "/default-image.jpg"} // Immagine di fallback
+        src={newBook.img || "/default-image.jpg"}
         className="card-img-top"
         alt={newBook.title || "Book Image"}
       />
