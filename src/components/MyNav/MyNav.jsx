@@ -11,7 +11,7 @@ const MyNav = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("Authorized");
     navigate("/");
   };
 

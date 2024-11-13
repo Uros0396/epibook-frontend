@@ -23,8 +23,8 @@ const LoginPage = () => {
 
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem("token", JSON.stringify(data.token));
-        navigate("/");
+        localStorage.setItem("Authorized", JSON.stringify(data.token));
+        navigate("/home");
       } else {
         alert(data.message || "Login failed. Try again.");
       }

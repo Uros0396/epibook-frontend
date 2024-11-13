@@ -5,16 +5,20 @@ import { isAuth } from "../../middleware/PrivateRoute";
 
 export const useSession = () => {
   const session = isAuth();
-  const decodedSession = session
-    ? jwtDecode(session.token, {
-        header: true,
-      })
-    : null;
+  const decodedSession = session ? jwtDecode(session) : null;
+
   const navigate = useNavigate();
+  const navigateToHome = () => {
+    navigate("/home");
+  };
   useEffect(() => {
     if (!session) {
       navigate("/");
+    } else {
+      navigateToHome();
     }
   }, [navigate, session]);
   return decodedSession;
 };
+
+export default useSession;

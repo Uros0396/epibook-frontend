@@ -7,9 +7,9 @@ const EntryPoint = () => {
   const checkAuth = () => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("home");
+      navigate("/home");
     } else {
-      navigate("login");
+      navigate("/login");
     }
   };
 

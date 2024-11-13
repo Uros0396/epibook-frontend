@@ -4,11 +4,12 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 const Success = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { token } = useParams();
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const token = searchParams.get("token");
     if (token) {
-      localStorage.setItem("auth", JSON.stringify(token));
+      localStorage.setItem("Authorized", JSON.stringify(token));
       navigate("/home");
     } else {
       navigate("/");
