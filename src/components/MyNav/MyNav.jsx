@@ -32,11 +32,11 @@ const MyNav = () => {
               </h1>
 
               <ul className="d-flex justify-content-center align-items-center gap-4 text-light list-unstyled m-0">
-                <Link to="/About" className="text-decoration-none">
-                  <li>About</li>
+                <Link to="/Registration" className="text-decoration-none">
+                  <li>Registration</li>
                 </Link>
-                <Link to="/Browse" className="text-decoration-none">
-                  <li>Browse</li>
+                <Link to="/MakeBook" className="text-decoration-none">
+                  <li>Make Your Book</li>
                 </Link>
               </ul>
             </div>

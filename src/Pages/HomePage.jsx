@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import MyNav from "../components/MyNav/MyNav";
 import Welcome from "../components/Welcome/Welcome";
-import MainSezione from "../components/MainSection/MainSezione";
+import MainSection from "../components/MainSection/MainSection";
 import Footer from "../components/Footer/Footer";
 
 const HomePage = () => {
@@ -9,7 +9,7 @@ const HomePage = () => {
     <>
       <MyNav />
       <Welcome />
-      <MainSezione />
+      <MainSection />
       <Footer />
     </>
   );

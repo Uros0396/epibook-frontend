@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 
 const getTokenPayload = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("Authorized");
   if (!token) {
     return null;
   }

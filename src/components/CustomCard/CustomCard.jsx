@@ -31,7 +31,7 @@ const CustomCard = ({ book, selectedBook, setSelectedBook }) => {
 
   return (
     <Card
-      className={`bookCard card-shadow gx-4 scale-over ${
+      className={`bookCard card-shadow gx-4 mb-2 scale-over text-center ${
         isClicked ? "border-danger" : ""
       }`}
       onClick={clickOnCard}

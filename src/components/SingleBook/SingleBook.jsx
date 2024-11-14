@@ -12,9 +12,9 @@ const SingleBook = ({ img, category, title, price }) => {
   return (
     <Col
       sm={12}
-      className="d-flex justify-content-center align-items-center mt-1"
+      className="d-flex justify-content-center align-items-center mt-2"
     >
-      <Card className="custom-card">
+      <Card className="custom-card text-center">
         {" "}
         <CardImg variant="top" className="object-fit-cover" src={img} />
         <CardBody>
@@ -22,10 +22,6 @@ const SingleBook = ({ img, category, title, price }) => {
           <CardText className="text-center">
             Category
             {category}
-          </CardText>
-          <CardText className="text-center">
-            Price
-            {price} €
           </CardText>
         </CardBody>
       </Card>
