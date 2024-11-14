@@ -15,6 +15,7 @@ const InputNav = () => {
   return (
     <div>
       <input
+        className="sm-12"
         type="text"
         value={helperFilter}
         onChange={(event) => sethelperFilter(event.target.value)}
